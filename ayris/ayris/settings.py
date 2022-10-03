@@ -32,8 +32,7 @@ ALLOWED_HOSTS = ["*"]
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
   'http://localhost:8000',
-  'http://localhost:8080', 
-#   'https://54.167.85.36/' 
+  'http://localhost:8080',
 )
 
 CORS_ALLOWED_ORIGINS = [
@@ -41,16 +40,12 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8080",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
-    # 'https://54.167.85.36/' 
-
 ]
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8080",
     "http://127.0.0.1:8080",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
-    # 'https://54.167.85.36/' 
-
 ]
 
 # Application definition
@@ -128,7 +123,7 @@ WSGI_APPLICATION = 'ayris.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = { 
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',

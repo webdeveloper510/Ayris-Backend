@@ -36,7 +36,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         verbose_name = "user"
 
     def __str__(self):
-        return self.email
+        return self.email 
 
 
 class GenderType(models.IntegerChoices):
@@ -235,8 +235,8 @@ class Profile(TimestampModel):
     def create_or_update_user_profile(sender, instance, created, **kwargs):
         if created:
             Profile.objects.create(user=instance)
-        instance.profile.search_param = SearchParam.objects.create()
-        instance.profile.save()
+            instance.profile.search_param = SearchParam.objects.create()
+            instance.profile.save()
 
 
 class GuestBook(models.Model):

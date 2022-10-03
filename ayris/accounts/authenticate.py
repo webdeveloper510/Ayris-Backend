@@ -23,14 +23,14 @@ from .models import CustomUser
 class CustomAuthentication(JWTAuthentication):
     def authenticate(self, request):
         print("FROM authenticate")
-        # print("request :", request)
-        # print("request :", request.__dict__)
-        # print("request :", request.__dict__.keys())
-        # print("request :", request.data)
+        print("request :", request)
+        print("request :", request.__dict__)
+        print("request :", request.__dict__.keys())
+        print("request :", request.data)
         header = self.get_header(request)
         print('header : ', header)
         print("COOKIES")
-        print(request.COOKIES)
+        print("COOKIE",request.COOKIES)
         print(settings.SIMPLE_JWT['AUTH_COOKIE'])
         print("")
         print("request :", request.__dict__)
@@ -52,7 +52,7 @@ class CustomAuthentication(JWTAuthentication):
             return None
         else:
             try:
-                UntypedToken(raw_token)
+                UntypedToken("here" ,   raw_token)
             except Exception as Error:
                 print("Error : ", Error)
         # else:
@@ -89,18 +89,19 @@ class CustomAuthentication(JWTAuthentication):
         # else:
         #     # RESET A NEW COOKIE
         #     pass
+        try:
+            validated_token = self.get_validated_token(raw_token)
 
-        validated_token = self.get_validated_token(raw_token)
+            print("validated_token : ", validated_token)
+            print("--------------------------")
+            print("request :", request.__dict__.keys())
+            print("--------------------------")
+            print("validated_token", validated_token)
+            """
+            TODO find rigth settings to enable
+            """
+            # enforce_csrf(request)
 
-        print("validated_token : ", validated_token)
-        print("--------------------------")
-        print("request :", request.__dict__.keys())
-        print("--------------------------")
-        print("validated_token", validated_token)
-        """
-        TODO find rigth settings to enable
-        """
-        # enforce_csrf(request)
-
-        return self.get_user(validated_token), validated_token
-
+            return self.get_user(validated_token), validated_token
+        except Exception as e:
+            print ("Error in auth: %s" % e)

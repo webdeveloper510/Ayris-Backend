@@ -181,20 +181,26 @@ class MyLoginView(APIView):
         email = data.get('email', None)
         password = data.get('password', None)
         user = authenticate(request, email=email, password=password)
+        print("USER:" , user)
 
         print(user)
         if user is not None:
             if user.is_active:
                 data = get_tokens_for_user(user)
+                print("DATA get_tokens_for_user:" , data)
 
                 login(request, user)
+                print("LOGIN IS HERE  : "  , login(request, user))
                 # SAMESITE
-                response = JwtCookieManager.set_cookie(
-                    response=response,
-                    access_token=data.get("access"),
-                    refresh_token=data.get("refresh")
-                )
-
+                try:
+                    response = JwtCookieManager.set_cookie(
+                        response=response,
+                        access_token=data.get("access"),
+                        refresh_token=data.get("refresh")
+                    )
+                    print("RESPONSE: " , response)
+                except Exception as e:
+                    print("ERROR: " , e.message)
                 # response.set_cookie(
                 #     key=settings.SIMPLE_JWT['AUTH_COOKIE'],
                 #     value=data.get("access"),

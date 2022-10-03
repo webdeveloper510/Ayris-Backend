@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.validators import UniqueValidator
@@ -175,8 +176,11 @@ class RegisterUserSerializer(serializers.ModelSerializer):
             email=validated_data['email']
         )
         print("password :", password)
-
-        user.set_password(password)
-        user.save()
-
+        try:
+            user.set_password(password)
+            user.save()  
+        except Exception as e:
+            print("ERROR is here :", e)
         return user
+        # print("User is saved" , user)
+        

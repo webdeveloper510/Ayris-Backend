@@ -43,24 +43,24 @@ class JWTRefreshInToCookie(MiddlewareMixin):
         # /api/refresh-token/ and data[refresh] = refresh_token
 
         print(request.path)
-        # # IF not login, tokens urls
-        # if "access" in request.COOKIES:
-        #     access_token = request.COOKIES.get("access")
-        #     # raise Exception(token_test[:-1] + "5")
-        #     # token_test[-1] = "5"
-        #     # token_test = token_test[:-1] + "5"
-        #     # CHECK VALID
-        #     # # print(UntypedToken(token_test[:-1] + "5"))
-        #     # print("****************************")
-        #     # print("request.user :", request.user)
-        #     # print(access_token)
-        #
-        #     try:
-        #         UntypedToken(access_token)
-        #     except (InvalidToken, TokenError) as e:
-        #         print(e)
-        #     else:
-        #         request.META["HTTP_AUTHORIZATION"] = "Bearer " + access_token
+        # IF not login, tokens urls
+        if "access" in request.COOKIES:
+            access_token = request.COOKIES.get("access")
+            # raise Exception(token_test[:-1] + "5")
+            # token_test[-1] = "5"
+            # token_test = token_test[:-1] + "5"
+            # CHECK VALID
+            # # print(UntypedToken(token_test[:-1] + "5"))
+            # print("****************************")
+            # print("request.user :", request.user)
+            print(access_token)
+        
+            try:
+                UntypedToken(access_token)
+            except (InvalidToken, TokenError) as e:
+                print(e)
+            else:
+                request.META["HTTP_AUTHORIZATION"] = "Bearer " + access_token
         #
         # if "refresh" in request.COOKIES:
         #     refresh_token = request.COOKIES.get("refresh")
@@ -85,15 +85,15 @@ class JWTRefreshInToCookie(MiddlewareMixin):
         #             print("ALL GOOD")
         #             request.META["HTTP_AUTHORIZATION"] = "Bearer " + access_token
 
-        # if request.path == '/token/refresh/' and settings.JWT_AUTH_REFRESH_COOKIE in request.COOKIES:
-        #     jwt_refresh_cookie = settings.JWT_AUTH_REFRESH_COOKIE
-        #     if request.body != b'':
-        #         data = json.loads(request.body)
-        #         data['refresh'] = request.COOKIES[jwt_refresh_cookie]
-        #         request._body = json.dumps(data).encode('utf-8')
-        #     else:
-        #         print("The incoming request body must be set to an empty objec")
-        #         # LOG.info("The incoming request body must be set to an empty object.")
+        if request.path == '/token/refresh/' and settings.JWT_AUTH_REFRESH_COOKIE in request.COOKIES:
+            jwt_refresh_cookie = settings.JWT_AUTH_REFRESH_COOKIE
+            if request.body != b'':
+                data = json.loads(request.body)
+                data['refresh'] = request.COOKIES[jwt_refresh_cookie]
+                request._body = json.dumps(data).encode('utf-8')
+            else:
+                print("The incoming request body must be set to an empty objec")
+                # LOG.info("The incoming request body must be set to an empty object.")
 
         return None
 

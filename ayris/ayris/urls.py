@@ -31,13 +31,17 @@ from accounts.views import (
     LogoutAndBlacklistRefreshTokenView,
     # CustomObtainTokenPairView,
     MyLoginView,
-    CustomUserRegister
+    CustomUserRegister,
+    UpdateUserCount,
+    CustomerCountView
 )
 
 
 urlpatterns = [
     path('api/login/', MyLoginView.as_view(), name='token_obtain_pair'),
     path('api/register/', CustomUserRegister.as_view(), name="register"),
+    path('api/updatecount/', UpdateUserCount.as_view(), name='UpdateUserCount'),
+    path('api/customercount/', CustomerCountView.as_view(), name='CustomerCountView'),
     path('api/verify-token/', TokenVerifyView.as_view(), name='token_verify'),
     path('api/refresh-token/', TokenRefreshView.as_view(), name='token_refresh'),
     path('logout/', LogoutAndBlacklistRefreshTokenView.as_view(), name='blacklist'),

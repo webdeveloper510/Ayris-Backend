@@ -13,6 +13,7 @@ from rest_framework.authentication import BasicAuthentication, SessionAuthentica
 from .serializers import RegisterUserSerializer
 from ayris.custom.utils import JwtCookieManager
 from .authenticate import CustomAuthentication
+from rest_framework.views import APIView # new
 
 from ayris.custom.drf import (
 SecureAPIView,
@@ -243,3 +244,30 @@ class CustomUserRegister(APIView):
                 json = serializer.data
                 return Response(json, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# class UpdateUserCount(APIView):
+#     def get(self, request, format=None):
+#         snippets = CustomUser.objects.all().count()
+#         serializer = RegisterUserSerializer(snippets, many=True)
+#         return Response(serializer.data)
+
+from rest_framework import generics
+
+class UpdateUserCount(generics.ListAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = RegisterUserSerializer
+    
+    def get(self, request, *args, **kwargs):
+        customer = self.get_queryset()
+        count = customer.count()
+        serialized_products = self.get_serializer(customer, many=True)
+        response_data = {
+            "count": count,
+            "customer _data": serialized_products.data
+        }
+        return Response(response_data)
+    
+class CustomerCountView(APIView):
+    def get(self, request):
+        count = CustomUser.objects.count()
+        return Response({'count': count})
